@@ -1,0 +1,17 @@
+{
+  "name": "khoa_luan",
+  "version": "1.0.0",
+  "description": "khoa luan tot nghiep",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node src/index.js"
+  },
+  "author": "Kiet",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^17.2.2",
+    "express": "^5.1.0",
+    "http-status-codes": "^2.3.0",
+    "winston": "^3.17.0"
+  }
+}

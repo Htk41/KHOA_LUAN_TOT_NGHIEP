@@ -1,0 +1,8 @@
+Bên trong thư mục src, toàn bộ mã nguồn thực tế liên quan đến dự án sẽ được đặt tại đây. Thư mục này không bao gồm bất kỳ loại test nào (sẽ cập nhật sau). Bên trong src bao gồm:
+Thư mục 'config': Thư mục này chứa tất cả các cấu hình liên quan đến việc thiết lập các thư viện (library) hoặc module. Ví dụ: việc thiết lập "dotenv" để có thể sử dụng environment variables một cách sạch sẽ và tiện lợi ở mọi nơi trong ứng dụng – điều này được thực hiện trong file server-config.js. Một ví dụ khác là thiết lập thư viện logging để tạo ra các log có ý nghĩa, vì vậy cấu hình cho thư viện này cũng nên được đặt tại đây.
+Thư mục 'routes': Trong thư mục routes, chúng ta sẽ đăng ký các route và các middleware tương ứng cùng với controller liên quan đến chúng.
+Thư mục 'middlewares': Các middleware này sẽ chặn (intercept) các incoming requests, nơi chúng ta có thể viết các validator, authenticator, v.v.
+Thư mục 'controllers': Các controller có thể coi như là các middleware cuối cùng; sau chúng, bạn sẽ gọi đến business layer để thực thi business logic. Trong controllers, chúng ta chỉ nhận incoming requests và dữ liệu, sau đó truyền chúng đến business layer. Khi business layer trả về output, chúng ta sẽ cấu trúc API response trong controllers và gửi output đó trở lại.
+Thư mục 'repositories': Thư mục này chứa toàn bộ logic dùng để tương tác với database (DB) thông qua việc viết các queries. Tất cả các raw queries hoặc ORM queries sẽ được đặt tại đây.
+Thư mục 'services': Thư mục này chứa business logic và tương tác với các repositories để lấy dữ liệu từ database.
+Thư mục 'utils': Thư mục này chứa các helper methods, error classes, v.v.

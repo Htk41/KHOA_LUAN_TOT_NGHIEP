@@ -1,4 +1,4 @@
-Bên trong thư mục src, toàn bộ mã nguồn thực tế liên quan đến dự án sẽ được đặt tại đây. Thư mục này không bao gồm bất kỳ loại test nào (sẽ cập nhật sau). Bên trong src bao gồm:
+Bên trong thư mục src, toàn bộ mã nguồn liên quan đến dự án sẽ được đặt tại đây. Thư mục này không bao gồm bất kỳ loại test nào (sẽ cập nhật sau). Bên trong src bao gồm:
 Thư mục 'config': Thư mục này chứa tất cả các cấu hình liên quan đến việc thiết lập các thư viện (library) hoặc module. Ví dụ: việc thiết lập "dotenv" để có thể sử dụng environment variables một cách sạch sẽ và tiện lợi ở mọi nơi trong ứng dụng – điều này được thực hiện trong file server-config.js. Một ví dụ khác là thiết lập thư viện logging để tạo ra các log có ý nghĩa, vì vậy cấu hình cho thư viện này cũng nên được đặt tại đây.
 Thư mục 'routes': Trong thư mục routes, chúng ta sẽ đăng ký các route và các middleware tương ứng cùng với controller liên quan đến chúng.
 Thư mục 'middlewares': Các middleware này sẽ chặn (intercept) các incoming requests, nơi chúng ta có thể viết các validator, authenticator, v.v.

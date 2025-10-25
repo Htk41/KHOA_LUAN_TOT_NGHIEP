@@ -11,7 +11,7 @@ const { SuccessResponse, ErrorResponse } = require('../utils/common');
 
 async function createAirport(req, res) {
     try {
-        const airport = await AirportService.create({
+        const airport = await AirportService.createAirport({
             name: req.body.name,
             code: req.body.code,
             address: req.body.address,
@@ -35,7 +35,7 @@ async function createAirport(req, res) {
  */
 async function getAirports(req, res) {
     try {
-        const airports = await AirportService.getAll();
+        const airports = await AirportService.getAirports();
         SuccessResponse.data = airports;
         return res
                 .status(StatusCodes.OK)

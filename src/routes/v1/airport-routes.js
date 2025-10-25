@@ -23,3 +23,14 @@ router.delete('/:id',
         AirportController.destroyAirport);
 
 module.exports = router;
+
+
+
+
+
+
+
+
+
+
+

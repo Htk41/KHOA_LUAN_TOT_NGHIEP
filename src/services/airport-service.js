@@ -37,7 +37,7 @@ async function getAirport(id) {
         if(error.statusCode == StatusCodes.NOT_FOUND) {
             throw new AppError('The airport you requested is not present', error.statusCode);
         }
-        throw new AppError('Cannot fetch data of all the airports', StatusCodes.INTERNAL_SERVER_ERROR);
+        throw new AppError('Cannot fetch data of the airport', StatusCodes.INTERNAL_SERVER_ERROR);
     }
 }
 

@@ -1,16 +1,18 @@
 const { StatusCodes } = require('http-status-codes');
 
-const { BookingRepository } = require('../repositories')
+const { BookingRepository, FlightRepository } = require('../repositories')
 const db = require('../models');
 const AppError = require('../utils/errors/app-error');
 const { Enums } = require('../utils/common');
 const { BOOKED, CANCELLED } = Enums.BOOKING_STATUS;
 
 const bookingRepository = new BookingRepository();
+const flightRepository = new FlightRepository();
 
 async function createBooking(data) {
     const transaction = await db.sequelize.transaction();
     try {
+        const flight = await flightRepository.get(data.flightId, transaction);
         const flightData = flight.data.data;
         if(data.noOfSeats > flightData.totalSeats) {
             throw new AppError('Not enough seats available', StatusCodes.BAD_REQUEST);
@@ -43,7 +45,7 @@ async function makePayment(data) {
         const bookingTime = new Date(bookingDetails.createdAt);
         const currentTime = new Date();
         if(currentTime - bookingTime > 300000) {
-            await bookingRepository.update(data.bookingId, {status: CANCELLED}, transaction);
+            await cancelBooking(data.bookingId);
             throw new AppError('The booking has expired', StatusCodes.BAD_REQUEST);
         }
         if(bookingDetails.totalCost != data.totalCost) {
@@ -84,7 +86,7 @@ async function cancelBooking(bookingId) {
 
 async function cancelOldBookings() {
     try {
-        const time = new Date( Date.now()- 1000 * 300 );
+        const time = new Date( Date.now() - 1000 * 300 );
         const response = await bookingRepository.cancelOldBookings(time);
         return response;
     } catch (error) {
@@ -95,5 +97,6 @@ async function cancelOldBookings() {
 module.exports = {
     createBooking,
     makePayment, 
+    cancelBooking,
     cancelOldBookings
 }

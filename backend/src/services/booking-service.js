@@ -13,11 +13,10 @@ async function createBooking(data) {
     const transaction = await db.sequelize.transaction();
     try {
         const flight = await flightRepository.get(data.flightId, transaction);
-        const flightData = flight.data.data;
-        if(data.noOfSeats > flightData.totalSeats) {
+        if(data.noOfSeats > flight.totalSeats) {
             throw new AppError('Not enough seats available', StatusCodes.BAD_REQUEST);
         }
-        const totalBillingAmount = data.noOfSeats * flightData.price;
+        const totalBillingAmount = data.noOfSeats * flight.price;
 
         if (data.promoCode) {
             const voucher = await voucherRepository.findByCode(data.promoCode, transaction);

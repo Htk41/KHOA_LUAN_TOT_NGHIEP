@@ -61,7 +61,49 @@ async function login(data) {
     }
 }
 
+async function changePassword(userId, data) {
+    try {
+        const user = await userRepository.get(userId);
+        if(!user) throw new AppError('User not found', StatusCodes.NOT_FOUND);
+
+        // 1. Kiểm tra mật khẩu cũ
+        const isMatch = await bcrypt.compare(data.oldPassword, user.password);
+        if(!isMatch) throw new AppError('Incorrect old password', StatusCodes.BAD_REQUEST);
+
+        // 2. Mã hóa mật khẩu mới
+        const salt = await bcrypt.genSalt(+ServerConfig.SALT_ROUNDS);
+        const encryptedPassword = await bcrypt.hash(data.newPassword, salt);
+
+        // 3. Cập nhật
+        await userRepository.update(userId, { password: encryptedPassword });
+        return true;
+    } catch(error) {
+        if(error instanceof AppError) throw error;
+        throw new AppError('Cannot change password', StatusCodes.INTERNAL_SERVER_ERROR);
+    }
+}
+
+async function updateProfile(userId, data) {
+    try {
+        // Chỉ cho phép cập nhật fullName và avatar (tránh user tự đổi role)
+        const updateData = {
+            fullName: data.fullName,
+            avatar: data.avatar
+        };
+        await userRepository.update(userId, updateData);
+        
+        // Trả về user mới để Frontend cập nhật lại giao diện
+        const updatedUser = await userRepository.get(userId);
+        return updatedUser;
+    } catch(error) {
+        if(error instanceof AppError) throw error;
+        throw new AppError('Cannot update profile', StatusCodes.INTERNAL_SERVER_ERROR);
+    }
+}
+
 module.exports = {
     register,
-    login
+    login,
+    changePassword,
+    updateProfile
 }
